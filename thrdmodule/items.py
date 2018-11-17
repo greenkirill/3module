@@ -9,9 +9,17 @@ import scrapy
 
 
 class ThrdmoduleItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    record_type = scrapy.Field()
-    url_from = scrapy.Field()
-    url_to = scrapy.Field()
-    url_status = scrapy.Field()
+    url = scrapy.Field()
+    f_n = scrapy.Field()
+
+class SpbuItem(scrapy.Item):
+    url = scrapy.Field()
+    f_n = scrapy.Field()
+    
+class TgrItem(scrapy.Item):
+    url = scrapy.Field()
+    f_n = scrapy.Field()
+
+class MsuItem(scrapy.Item):
+    url = scrapy.Field()
+    f_n = scrapy.Field()

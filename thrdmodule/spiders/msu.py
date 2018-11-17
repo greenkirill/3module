@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.spiders import Rule, CrawlSpider
 from scrapy.linkextractor import LinkExtractor
-from ..items import SpbuItem
+from ..items import MsuItem
 import html2text
 import nltk
 import re
@@ -19,10 +19,10 @@ def response_to_text(response):
     return res
 
 
-class SpbuSpider(CrawlSpider):
-    name = "spbu"
-    allowed_domains = ["spbu.ru","www.spbu.ru"]
-    start_urls = ["https://spbu.ru/"]
+class MsuSpider(CrawlSpider):
+    name = "msu"
+    allowed_domains = ["msu.ru","www.msu.ru"]
+    start_urls = ["https://www.msu.ru/"]
     rules = [
         Rule(
             LinkExtractor(
@@ -33,13 +33,13 @@ class SpbuSpider(CrawlSpider):
             callback="parse_items"
         )
     ]
-    path = "./spbu_files/"
+    path = "./msu_files/"
     def start_requests(self):
         for url in self.start_urls:
             yield scrapy.Request(url, callback=self.parse, dont_filter=True)
 
     def parse_items(self, response):
-        item = SpbuItem()
+        item = MsuItem()
         item['url'] = response.url
         filename = str(uuid.uuid4())
         with open("%s%s.txt" % (self.path, filename), "w", encoding="utf-8") as rf:
