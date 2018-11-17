@@ -18,7 +18,7 @@ class SpbuSpider(CrawlSpider):
 
     # The domains that are allowed (links to other domains are skipped)
     # allowed_domains = ["127.0.0.1"]
-    allowed_domains = ["spbu.ru", "www.spbu.ru"]
+    allowed_domains = ["spbu.ru","www.spbu.ru"]
 
 
     # The URLs to start with
@@ -34,7 +34,6 @@ class SpbuSpider(CrawlSpider):
                 unique=True,
                 # deny=("http://127.0.0.1/blekanov/site/branch/*",
                 #       r'^http:\/\/127\.0\.0\.1\/[^blekanov].*')
-                deny=(r"^.*\.spbu\.ru")
             ),
             follow=True,
             callback="parse_items"
