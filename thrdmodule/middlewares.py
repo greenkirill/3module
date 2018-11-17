@@ -106,4 +106,4 @@ class ThrdmoduleDownloaderMiddleware(object):
 
 class MyOffsiteMiddleware(OffsiteMiddleware):
     def get_host_regex(self, spider):
-        return re.compile(r"^(www\.)?spbu\.ru")
+        return re.compile(r"^(www\.)?spbu\.ru$")
