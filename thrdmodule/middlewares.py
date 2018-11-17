@@ -6,9 +6,9 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
-
-
-class DatabloggerScarperSpiderMiddleware(object):
+from scrapy.spidermiddlewares.offsite import OffsiteMiddleware
+import re
+class ThrdmoduleSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
     # passed objects.
@@ -56,7 +56,7 @@ class DatabloggerScarperSpiderMiddleware(object):
         spider.logger.info('Spider opened: %s' % spider.name)
 
 
-class DatabloggerScarperDownloaderMiddleware(object):
+class ThrdmoduleDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
@@ -101,3 +101,9 @@ class DatabloggerScarperDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+
+class MyOffsiteMiddleware(OffsiteMiddleware):
+    def get_host_regex(self, spider):
+        return re.compile(r"^(www\.)?spbu\.ru")

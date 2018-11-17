@@ -8,7 +8,9 @@
 import scrapy
 
 
-class DatabloggerScarperItem(scrapy.Item):
+class ThrdmoduleItem(scrapy.Item):
+    # define the fields for your item here like:
+    # name = scrapy.Field()
     record_type = scrapy.Field()
     url_from = scrapy.Field()
     url_to = scrapy.Field()

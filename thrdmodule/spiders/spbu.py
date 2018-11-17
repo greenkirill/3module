@@ -1,7 +1,7 @@
 import scrapy
 from scrapy.linkextractor import LinkExtractor
 from scrapy.spiders import Rule, CrawlSpider
-from ..items import DatabloggerScarperItem
+from ..items import ThrdmoduleItem
 
 TEXTRACT_EXTENSIONS = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".pptx", ".ppt", ".rar", ".jpeg", ".jpg", ""]
 
@@ -12,18 +12,18 @@ class CustomLinkExtractor(LinkExtractor):
         self.deny_extensions = [ext for ext in self.deny_extensions if ext not in TEXTRACT_EXTENSIONS]
 
 
-class DatabloggerSpider(CrawlSpider):
+class SpbuSpider(CrawlSpider):
     # The name of the spider
-    name = "datablogger"
+    name = "spbu"
 
     # The domains that are allowed (links to other domains are skipped)
     # allowed_domains = ["127.0.0.1"]
-    allowed_domains = ["tgr.am"]
+    allowed_domains = ["spbu.ru", "www.spbu.ru"]
 
 
     # The URLs to start with
     # start_urls = ["http://127.0.0.1/blekanov/site/root/index.html"]
-    start_urls = ["https://tgr.am/"]
+    start_urls = ["https://spbu.ru/"]
 
 
     # This spider has one rule: extract all (unique and canonicalized) links, follow them and parse them using the parse_items method
@@ -34,6 +34,7 @@ class DatabloggerSpider(CrawlSpider):
                 unique=True,
                 # deny=("http://127.0.0.1/blekanov/site/branch/*",
                 #       r'^http:\/\/127\.0\.0\.1\/[^blekanov].*')
+                deny=(r"^.*\.spbu\.ru")
             ),
             follow=True,
             callback="parse_items"
@@ -52,7 +53,7 @@ class DatabloggerSpider(CrawlSpider):
         # The list of items that are found on the particular page
         items = []
 
-        item_status = DatabloggerScarperItem()
+        item_status = ThrdmoduleItem()
         item_status['record_type'] = 0
         item_status['url_from'] = response.url
         item_status['url_status'] = response.status
@@ -74,7 +75,7 @@ class DatabloggerSpider(CrawlSpider):
 
             # If it is allowed, create a new item and add it to the list of found items
             if is_allowed:
-                item = DatabloggerScarperItem()
+                item = ThrdmoduleItem()
                 item['record_type'] = 1
                 item['url_from'] = response.url
                 item['url_to'] = link.url
@@ -84,7 +85,7 @@ class DatabloggerSpider(CrawlSpider):
         return items
 
     def parse_image_link(self, response):
-        item = DatabloggerScarperItem()
+        item = ThrdmoduleItem()
         item['record_type'] = 2
         item['url_to'] = response.url
         item['url_from'] = response.request.headers.get('Referer', None)

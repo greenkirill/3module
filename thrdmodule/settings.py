@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for datablogger_scarper project
+# Scrapy settings for thrdmodule project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,18 +9,17 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'datablogger_scarper'
+BOT_NAME = 'thrdmodule'
 
-SPIDER_MODULES = ['datablogger_scarper.spiders']
-NEWSPIDER_MODULE = 'datablogger_scarper.spiders'
+SPIDER_MODULES = ['thrdmodule.spiders']
+NEWSPIDER_MODULE = 'thrdmodule.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'datablogger_scarper (+http://www.yourdomain.com)'
+#USER_AGENT = 'thrdmodule (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False
-
+ROBOTSTXT_OBEY = True
 HTTPERROR_ALLOWED_CODES = [404, 403]
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
@@ -49,14 +48,15 @@ HTTPERROR_ALLOWED_CODES = [404, 403]
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'datablogger_scarper.middlewares.DatabloggerScarperSpiderMiddleware': 543,
+#    'thrdmodule.middlewares.ThrdmoduleSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'datablogger_scarper.middlewares.DatabloggerScarperDownloaderMiddleware': 543,
-#}
+SPIDER_MIDDLEWARES = {
+   'thrdmodule.middlewares.MyOffsiteMiddleware': 666,
+   'scrapy.spidermiddlewares.offsite.OffsiteMiddleware': None
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -67,7 +67,7 @@ HTTPERROR_ALLOWED_CODES = [404, 403]
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'datablogger_scarper.pipelines.DatabloggerScarperPipeline': 300,
+#    'thrdmodule.pipelines.ThrdmodulePipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
