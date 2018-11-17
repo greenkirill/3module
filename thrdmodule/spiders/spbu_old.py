@@ -14,7 +14,7 @@ class CustomLinkExtractor(LinkExtractor):
 
 class SpbuOldSpider(CrawlSpider):
     # The name of the spider
-    name = "spbu"
+    name = "spbu_old"
 
     # The domains that are allowed (links to other domains are skipped)
     # allowed_domains = ["127.0.0.1"]
