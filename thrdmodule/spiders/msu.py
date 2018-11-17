@@ -2,8 +2,6 @@ import scrapy
 from scrapy.spiders import Rule, CrawlSpider
 from scrapy.linkextractor import LinkExtractor
 from ..items import MsuItem
-import html2text
-import nltk
 import re
 from bs4 import BeautifulSoup as BS
 import uuid
