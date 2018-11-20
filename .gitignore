@@ -3,6 +3,10 @@
 *.py[cod]
 *$py.class
 
+*.out
+**/test
+**/*_files/
+
 # C extensions
 *.so
 
