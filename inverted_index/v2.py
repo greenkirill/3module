@@ -62,25 +62,3 @@ class v2:
                 f = i
             # print(N, i, f,t)
         return list(map(self.map_url, self.lst[t][1].split("|"))) if word == self.lst[t][0] else []
-
-    @staticmethod
-    def read_v1row(row):
-        i = 0
-        while row[i] != "|":
-            i += 1
-        return (row[:i], row[i+1:-1])
-
-    @staticmethod
-    def v1_to_v2(v1file, v2file):
-        with open(v1file, "r", encoding=ENCODING) as rf:
-            with open(v2file, "w", encoding=ENCODING) as wf:
-                fl = True
-                for l in rf.readlines():
-                    r = v2.read_v1row(l)
-                    if 0 < len(r[0]) < 31:
-                        if fl:
-                            fl = False
-                            wf.write("{:30s}{:s}".format(r[0], r[1]))
-                        else:
-                            wf.write("\n{:30s}{:s}".format(r[0], r[1]))
-    
