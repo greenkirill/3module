@@ -22,7 +22,7 @@ class v4:
 
         s = ""
         for i in kv[1]:
-            s += v4.int_to_edelta(i)
+            s += v4.int_to_edelta(i+1)
         N = len(s)//8
         vls += v4.int_to_bytes(N+1,
                                intbytes=intbytes, byteorder=byteorder)
@@ -34,7 +34,33 @@ class v4:
             t += 8
         n = len(s) - N*8
         if n != 0:
-            print(s[f:t], n)
+            vls += int(s[f:t] + "0"*(8-n), 2).to_bytes(1, "big")
+        return rw + vls
+
+    @staticmethod
+    def kv_to_prow(kv, mp, lang="ru", encoding=ENCODING, intbytes=4, byteorder="big", index_length=INDEX_LENGTH):
+        
+        wordbytes = v3.index_length(
+            lang=lang, encoding=encoding, index_length=index_length)
+        rw = bytes(kv[0], encoding=encoding)
+        rw += bytes(bytearray(wordbytes-len(rw)))
+
+        vls = b''
+
+        s = ""
+        for i in kv[1]:
+            s += v4.int_to_edelta(mp[i]+1)
+        N = len(s)//8
+        vls += v4.int_to_bytes(N+1,
+                               intbytes=intbytes, byteorder=byteorder)
+        f = 0
+        t = 8
+        for i in range(N):
+            vls += int(s[f:t], 2).to_bytes(1, "big")
+            f += 8
+            t += 8
+        n = len(s) - N*8
+        if n != 0:
             vls += int(s[f:t] + "0"*(8-n), 2).to_bytes(1, "big")
         return rw + vls
 

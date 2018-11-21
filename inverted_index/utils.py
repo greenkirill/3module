@@ -5,6 +5,8 @@ from settings import INPUT_TXT_FILES_DIR_PATH, INDEX_LENGTH, ENCODING
 import json
 import re
 
+from v2 import v2
+
 def get_out_lines(file):
     with open(file, "r", encoding=ENCODING) as fr:
         lines = fr.readlines()
@@ -115,4 +117,28 @@ def save_to_v2file(lst, filename):
             else:
                 gen = cur[0]
                 wf.write("\n{:30s}{:s}".format(gen, cur[1]))
+
+
+def prob_url(urls, ii2, outurls, outmap):
+    with open(urls, "r", encoding=ENCODING) as rf:
+        us = [l for l in rf.readlines()]
+
+    with open(ii2, "r", encoding=ENCODING) as rf:
+        kvs = [v2.row_to_kv(l) for l in rf.readlines()]
+    cnt = [[i, 0] for i in range(len(us))]
+    for kv in kvs:
+        for v in kv[1]:
+            cnt[v][1] += 1
+    srtd = sorted(cnt, key=lambda x: -x[1])
+    mp = []
+    
+    with open(outmap, "w", encoding=ENCODING) as wf:
+        wf.write("0|%i" % srtd[0][0])
+        for i in range(1, len(srtd)): 
+            wf.write("\n%i|%i" % (i, srtd[i][0]))
+    
+    with open(outurls, "w", encoding=ENCODING) as wf:
+        wf.write("%s" % us[srtd[0][0]])
+        for i in range(1, len(srtd)): 
+            wf.write("%s" % us[srtd[i][0]])
 
