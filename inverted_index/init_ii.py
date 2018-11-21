@@ -53,7 +53,7 @@ def foo3(filelst):
     for f in filelst[0]:
         megalst += get_2list(f)
         # print("%i: %i megalst len %i" % (pid, itr, len(megalst)))
-    save_to_file(megalst, "./out_%i.out" % filelst[1])
+    save_to_v1file(megalst, "./out_%i.out" % filelst[1])
     print("%i megalst len %i" % (pid, len(megalst)))
     return 0
 
@@ -80,4 +80,4 @@ def step2():
     for i in range(69):
         mega += get_out_lines("./out_%i.out" % i)
         print(i, len(mega))
-    save_to_file(mega, "./spbu.ii")
+    save_to_v1file(mega, "./spbu.ii")

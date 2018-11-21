@@ -41,6 +41,13 @@ class v2:
     def read_row(self, s):
         return (str.strip(s[:30]), s[30:])
 
+    @staticmethod
+    def row_to_kv(v1row): 
+        return (str.strip(v1row[:30]), list(map(int, v1row[30:].split("|"))))
+
+    @staticmethod
+    def kv_to_row(kv): 
+        return "{:30s}{:s}".format(kv[0], "|".join(kv[1]))
 
     def read_v1_row2(self, row):
         values = row.split("|")

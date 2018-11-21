@@ -1,10 +1,13 @@
-from settings import ENCODING
+from settings import ENCODING, INDEX_LENGTH
+from v1 import v1
+from v2 import v2
+from v3 import v3
 
 def v1row_to_v2row(v1row):
-    i = 0
-    while v1row[i] != "|":
-        i += 1
-    return "{:30s}{:s}".format(v1row[:i], v1row[i+1:-1])
+    return v2.kv_to_row(v1.row_to_kv(v1row))
+
+def v2row_to_v3row(v1row, intbytes=2, index_length=INDEX_LENGTH):
+    return v3.kv_to_row(v2.row_to_kv(v1row), intbytes=intbytes, index_length=index_length)
 
 
 def v1_to_v2(v1file, v2file):
@@ -21,3 +24,17 @@ def v1_to_v2(v1file, v2file):
                         wf.write("\n%s" % r)
 
 
+def v2_to_v3(v2file, v3file, intbytes=3, index_length=INDEX_LENGTH):
+    with open(v2file, "r", encoding=ENCODING) as rf:
+        with open(v3file, "wb") as wf:
+            wf.write(v3.int_to_bytes(intbytes, intbytes=2))
+            wf.write(v3.int_to_bytes(index_length, intbytes=2))
+            i = 0
+            for l in rf.readlines():
+                r = v2row_to_v3row(l, intbytes=intbytes, index_length=index_length)
+                wf.write(r)
+                print(i)
+                i+=1
+
+
+# def v2row_to_v3row()

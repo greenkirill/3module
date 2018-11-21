@@ -88,7 +88,7 @@ def get_2list(f, lang="russian"):
 def merge2lists(list1, list2):
     return list1 + list2
 
-def save_to_file(lst, filename):
+def save_to_v1file(lst, filename):
     lst = filter(lambda x: len(x[0]) <= INDEX_LENGTH, lst)
     srtd = sorted(lst, key=lambda x: x[0])
     with open(filename, "w", encoding=ENCODING) as wf:
@@ -102,19 +102,17 @@ def save_to_file(lst, filename):
                 gen = cur[0]
                 wf.write("\n%s|%s" % (gen, cur[1]))
 
-# def save_to_v2file(lst, filename):
-#     lst = filter(lambda x: len(x[0]) <= INDEX_LENGTH, lst)
-#     srtd = sorted(lst, key=lambda x: x[0])
-#     with open(filename, "w", encoding=ENCODING) as wf:
-#         gen = srtd[0][0]
-#         wf.write("{:{INDEX_LENGTH}s} {:s}".format(gen, srtd[0][1], INDEX_LENGTH=INDEX_LENGTH)
-#         for i in range(1, len(srtd)):
-#             cur = srtd[i]
-#             if cur[0] == gen:
-#                 wf.write("|{:s}".format(cur[1]))
-#             else:
-#                 gen = cur[0]
-#                 wf.write("\n{:{INDEX_LENGTH}s} {:s}".format(gen, srtd[0][1], INDEX_LENGTH=INDEX_LENGTH)
-
-
+def save_to_v2file(lst, filename):
+    lst = filter(lambda x: len(x[0]) <= INDEX_LENGTH, lst)
+    srtd = sorted(lst, key=lambda x: x[0])
+    with open(filename, "w", encoding=ENCODING) as wf:
+        gen = srtd[0][0]
+        wf.write("{:30s}{:s}".format(gen, srtd[0][1]))
+        for i in range(1, len(srtd)):
+            cur = srtd[i]
+            if cur[0] == gen:
+                wf.write("|%s" % cur[1])
+            else:
+                gen = cur[0]
+                wf.write("\n{:30s}{:s}".format(gen, cur[1]))
 
