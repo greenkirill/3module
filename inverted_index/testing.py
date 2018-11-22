@@ -41,35 +41,35 @@ s3 = "достопримечательность|893693|464699|433528|271430|127
 #         t += 10
 #         f += 10
 
-def foo2(s:str):
-    key = str.strip(s[:30])
-    values = s[30:]
+# def foo2(s:str):
+#     key = str.strip(s[:30])
+#     values = s[30:]
     
 
-def foo3(s:str):
-    values = s.split("|")
-    key = values.pop(0)
-    values = list(map(int, values))
+# def foo3(s:str):
+#     values = s.split("|")
+#     key = values.pop(0)
+#     values = list(map(int, values))
 
-def foo4(s:str):
-    values = s.split("|")
-    key = values.pop(0)
-    values = s[len(key):]
+# def foo4(s:str):
+#     values = s.split("|")
+#     key = values.pop(0)
+#     values = s[len(key):]
 
-def foo5(s:str):
-    i = 0
-    while s[i] != "|":
-        i += 1
-    key = s[:i]
-    values = s[i+1:]
+# def foo5(s:str):
+#     i = 0
+#     while s[i] != "|":
+#         i += 1
+#     key = s[:i]
+#     values = s[i+1:]
 
 
-import timeit
-# print(timeit.timeit('foo1(s1)', globals=globals(), number=10000))
-print(timeit.timeit('foo2(s2)', globals=globals(), number=100000))
-# print(timeit.timeit('foo3(s3)', globals=globals(), number=10000))
-# print(timeit.timeit('foo4(s3)', globals=globals(), number=10000))
-print(timeit.timeit('foo5(s3)', globals=globals(), number=100000))
+# import timeit
+# # print(timeit.timeit('foo1(s1)', globals=globals(), number=10000))
+# print(timeit.timeit('foo2(s2)', globals=globals(), number=100000))
+# # print(timeit.timeit('foo3(s3)', globals=globals(), number=10000))
+# # print(timeit.timeit('foo4(s3)', globals=globals(), number=10000))
+# print(timeit.timeit('foo5(s3)', globals=globals(), number=100000))
 
 
 # with open("./out/spbu.ii2", "rb") as rf: 
@@ -100,7 +100,7 @@ print(timeit.timeit('foo5(s3)', globals=globals(), number=100000))
 
 
 # print(timeit.timeit('fff()', globals=globals(), number=100000))
-s = b'asdddjoiqwjd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x01'
+# s = b'asdddjoiqwjd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x01'
 
 # with open("./inputs/test33.txt", "wb") as wf:
 #     wf.write(s)
@@ -133,3 +133,114 @@ s = b'asdddjoiqwjd\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x
 # print(timeit.timeit('fb1()', globals=globals(), number=10000))
 # print(timeit.timeit('fb2()', globals=globals(), number=10000))
 # print(timeit.timeit('fb3()', globals=globals(), number=10000))
+
+
+# def bt1():
+#     a = bytearray()
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     a.append(3)
+#     b = bytes(a)
+
+# def bt2():
+#     a = b''
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+#     a += b'\x03'
+
+# import timeit
+# print(timeit.timeit('bt1()', globals=globals(), number=100000))
+# print(timeit.timeit('bt2()', globals=globals(), number=100000))
+
+# from bitarray import bitarray
+# from bitstring import BitArray
+# from bitstream import BitStream
+
+# def bit1():
+#     a = bitarray()
+#     a.append(True)
+#     a.append(False)
+#     a.append(True)
+#     a.append(True)
+#     a.append(True)
+#     a.append(False)
+#     a.append(True)
+#     a.append(True)
+#     b = a.tobytes()
+# def bit2():
+#     a = ""
+#     a += "1"
+#     a += "0"
+#     a += "1"
+#     a += "1"
+#     a += "1"
+#     a += "0"
+#     a += "1"
+#     a += "1"
+#     b = int(a, 2).to_bytes(1, "big")
+
+# # медленное дерьмо
+# def bit3():
+#     a = BitArray()
+#     a.append(True)
+#     a.append(False)
+#     a.append(True)
+#     a.append(True)
+#     a.append(True)
+#     a.append(False)
+#     a.append(True)
+#     a.append(True)
+#     b = a.tobytes()
+
+# def bit4():
+#     a = BitStream()
+#     a.write(True, bool)
+#     a.write(False, bool)
+#     a.write(True, bool)
+#     a.write(True, bool)
+#     a.write(True, bool)
+#     a.write(False, bool)
+#     a.write(True, bool)
+#     a.write(True, bool)
+#     b = a.read(bytes)
+
+# import timeit
+# print(timeit.timeit('bit1()', globals=globals(), number=100000))
+# print(timeit.timeit('bit2()', globals=globals(), number=100000))
+# print(timeit.timeit('bit3()', globals=globals(), number=1000))
+# print(timeit.timeit('bit4()', globals=globals(), number=100000))
+
+# from v4 import v4
+# from v3 import v3
+# from v2 import v2
+# from v1 import v1
+# def v_4():
+#     a = v4.kv_to_row(('абв', [1,2,3]))
+#     # b = v4.row_to_kv(a)
+# def v_2():
+#     a = v2.kv_to_row(('абв', [1,2,3]))
+#     # b = v2.row_to_kv(a)
+# def v_1():
+#     a = v1.kv_to_row(('абв', [1,2,3]))
+#     # b = v1.row_to_kv(a)
+# def v_3():
+#     a = v3.kv_to_row(('абв', [1,2,3]))
+#     # b = v3.row_to_kv(a)
+
+# import timeit
+# print(timeit.timeit('v_1()', globals=globals(), number=100000))
+# print(timeit.timeit('v_2()', globals=globals(), number=100000))
+# print(timeit.timeit('v_3()', globals=globals(), number=100000))
+# print(timeit.timeit('v_4()', globals=globals(), number=100000))

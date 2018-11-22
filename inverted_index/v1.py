@@ -52,11 +52,11 @@ class v1:
         i = 0
         while v1row[i] != "|":
             i += 1
-        return (v1row[:i], list(map(int, v1row[i+1:-1].split("|"))))
+        return (v1row[:i], list(map(int, v1row[i+1:].split("|"))))
 
     @staticmethod
     def kv_to_row(kv): 
-        return "{:s}|{:s}".format(kv[0], "|".join(kv[1]))
+        return "{:s}|{:s}".format(kv[0], "|".join(map(str, kv[1])))
 
     def read_v1_row2(self, row):
         values = row.split("|")

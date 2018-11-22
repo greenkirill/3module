@@ -33,15 +33,19 @@ class v3:
             self.intbytes = intbytes
             index_length = v3.bytes_to_int(rf.read(2))
             wordbytes = v3.index_length(index_length=index_length)
-            key = rf.read(wordbytes)
+            key = b''
+            k = rf.read(1)
+            while k != b'' and k != b'\x00':
+                key += k
+                k = rf.read(1)
             while key != b'':
-                for i in range(wordbytes-1, -1, -1):
-                    if key[i] != 0:
-                        key = key[:i+1]
-                        break
                 n = v3.bytes_to_int(rf.read(intbytes))
                 self.lst.append((key, rf.read(n*intbytes)))
-                key = rf.read(wordbytes)
+                key = b''
+                k = rf.read(1)
+                while k != b'' and k != b'\x00':
+                    key += k
+                    k = rf.read(1)
     
     def map_url(self, i): return self.mp[i]
     
@@ -74,10 +78,8 @@ class v3:
 
     @staticmethod
     def kv_to_row(kv, lang="ru", encoding=ENCODING, intbytes=4, byteorder="big", index_length=INDEX_LENGTH):
-        wordbytes = v3.index_length(
-            lang=lang, encoding=encoding, index_length=index_length)
         rw = bytes(kv[0] + "\0", encoding=encoding)
-        rw += bytes(bytearray(wordbytes-len(rw)))
+        # rw += bytes(bytearray(wordbytes-len(rw)))
 
         vls = b''
         vls += v3.int_to_bytes(len(kv[1]),
@@ -92,13 +94,13 @@ class v3:
 
     @staticmethod
     def row_to_kv(row, lang="ru", encoding=ENCODING, intbytes=4, byteorder="big", index_length=INDEX_LENGTH):
-        wordbytes = v3.index_length(
-            lang=lang, encoding=encoding, index_length=index_length)
-        key = row[:wordbytes]
-        for i in range(wordbytes-1, -1, -1):
-            if key[i] != 0:
-                key = key[:i+1]
-                break
+        wb = 0
+        b = row[wb]
+        while b != 0:
+            wb += 1
+            b = row[wb]
+        wordbytes = wb+1
+        key = row[:wb]
         n = v3.bytes_to_int(
             row[wordbytes:wordbytes+intbytes], byteorder=byteorder)
         f = wordbytes+intbytes
