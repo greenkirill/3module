@@ -12,7 +12,7 @@ def response_to_text(response):
             child.decompose() 
     res = soup.body.get_text()
     res = re.sub(r"\W", " ", res)
-    # res = re.sub(r"\d", " ", res)
+    res = re.sub(r"\d", " ", res)
     res = re.sub(r"\s+", " ", res)
     return res
 
