@@ -1,37 +1,40 @@
-from init_ii import *
+# from init_ii import *
 from v1 import v1
 from v2 import v2
 from v3 import v3
 from v4 import v4
 from v5 import v5
-from settings import INPUT_JSON_FILE_PATH, INDEX_LENGTH
+from settings import INPUT_JSON_FILE_PATH, INDEX_LENGTH, INPUT_URLS
 from utils import *
 from time import time
 from cast import *
 
-file_iis2 = "C:\\PROJECTS\\py\\ggl\\inverted_index\\iis\\spbush.ii2"
-file_iis3 = "C:\\PROJECTS\\py\\ggl\\inverted_index\\iis\\spbu.ii3"
-file_iis4 = "C:\\PROJECTS\\py\\ggl\\inverted_index\\iis\\spbu.ii4"
-file_iis5 = "C:\\PROJECTS\\py\\ggl\\inverted_index\\iis\\spbu.iish5"
-urlfile = "C:\\PROJECTS\\py\\ggl\\inverted_index\\inputs\\urls.url"
-urlmapfile = "C:\\PROJECTS\\py\\ggl\\inverted_index\\inputs\\urlmap.map"
+prefix_iis = "C:\\Users\\kirill.gribkov\\Documents\\uni\\ggl\\inverted_index\\iis\\"
+prefix_inputs = "C:\\Users\\kirill.gribkov\\Documents\\uni\\3module\\inverted_index\\inputs\\"
+
+file_iis1 =  prefix_iis + "spbu.ii"
+file_iis2 =  prefix_iis + "spbu.ii2"
+file_iis2_sh =  prefix_iis + "spbu_sh.ii2"
+file_iis3 =  prefix_iis + "spbu.byteii"
+file_iis3_sh =  prefix_iis + "spbu_sh.byteii"
+file_iis4 =  prefix_iis + "spbu.ii4"
+file_iis4_sh =  prefix_iis + "spbu_sh.ii4"
+file_iis5 =  prefix_iis + "spbu.ii5"
+file_iis5_sh =  prefix_iis + "spbu_sh.ii5"
+urlfile =    prefix_inputs + "urls.url"
+urlmapfile = prefix_inputs + "urlmap.map"
 
 from time import time
 if __name__ == '__main__':
-    # fl3 = v3(file_iis3, urlfile, loadf=True)
-    # print(file_iis3, "загружен")
-    # fl2 = v2(file_iis2, "C:\\PROJECTS\\py\\ggl\\inverted_index\\inputs\\urls.url", loadf=True)
-    # print(file_iis2, "загружен")
-    fl5 = v5(file_iis5, urlfile, loadf=True)
-    print(file_iis5, "загружен")
+    fl2 = v2(file_iis2, INPUT_URLS, loadf=True)
+    fl3 = v3(file_iis3, INPUT_URLS, loadf=True)
+    fl4 = v4(file_iis4, INPUT_URLS, loadf=True)
+    fl5 = v5(file_iis5, INPUT_URLS, loadf=True)
     inp = "1"
-    res = []
     while inp != "":
         inp = input("Найти: ")
-        start = time()
-        res = fl5.find_word(inp)
-        end = time()
-        print("5", len(res), end-start)
-        # for i in res:
-            # print(i)
+        fl2.find_print_word(inp, tp=True)
+        fl3.find_print_word(inp, tp=True)
+        fl4.find_print_word(inp, tp=True)
+        fl5.find_print_word(inp, tp=True)
     pass

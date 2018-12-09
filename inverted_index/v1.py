@@ -2,7 +2,10 @@ from settings import ENCODING, INDEX_LENGTH
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import RussianStemmer
+from v2 import kv_to_k2v
 import time
+
+
 
 class v1:
 
@@ -34,6 +37,7 @@ class v1:
             self.N = len(self.lst)
 
     def map_url(self, i): return self.mp[int(i)]
+    def map2_url(self, i): return (self.mp[int(i[0])], i[1])
 
     def read_v1_row(self, row):
         values = row.split("|")
@@ -77,4 +81,11 @@ class v1:
             else:
                 f = i
             # print(N, i, f,t)
+        
+        if word == self.lst[t][0]:
+            cur = self.lst[t]
+            kv = (word, list(map(int, cur[1].split("|"))))
+            return list(map(self.map2_url, kv_to_k2v(kv)[1]))
+        else:
+            return []
         return list(map(self.map_url, self.lst[t][1].split("|"))) if word == self.lst[t][0] else []

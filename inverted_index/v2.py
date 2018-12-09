@@ -2,23 +2,35 @@ from settings import ENCODING, INDEX_LENGTH
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import RussianStemmer
-import time
+from time import time
+
+
+def kv_to_k2v(kv):
+    v2 = list(zip(kv[1][::2], kv[1][1::2]))
+    s = 0
+    v2n = []
+    for i in range(len(v2)):
+        v2n.append((v2[i][0] + s, v2[i][1]))
+        s = v2n[i][0]
+    return (kv[0], v2n)
 
 class v2:
 
     def __init__(self, filename, mp, loadf=True):
-        start = time.time()
+        print(filename, "начало загрузки")
+        start = time()
         self.filename = filename
         self.lst = []
         self.isLoad = False
         self.mp = []
         self.load_mp(mp)
-        start1 = time.time()
+        start1 = time()
         if loadf:
             self.load_list_from_file()
-        start2= time.time()
-        print(start1 - start)
-        print(start2 - start1)
+        start2= time()
+        print("Загрузка map файла:", start1 - start)
+        print("Загрузка файла обратного индекса:", start2 - start1)
+        print(filename, "загружен")
 
     def load_mp(self, fl):
         with open(fl, "r", encoding=ENCODING) as rf:
@@ -31,6 +43,7 @@ class v2:
             self.N = len(self.lst)
 
     def map_url(self, i): return self.mp[int(i)]
+    def map2_url(self, i): return (self.mp[int(i[0])], i[1])
 
     def read_v1_row(self, row):
         values = row.split("|")
@@ -69,4 +82,23 @@ class v2:
             else:
                 f = i
             # print(N, i, f,t)
-        return list(map(self.map_url, self.lst[t][1].split("|"))) if word == self.lst[t][0] else []
+        if word == self.lst[t][0]:
+            cur = self.lst[t]
+            kv = (word, list(map(int, cur[1].split("|"))))
+            return list(map(self.map2_url, kv_to_k2v(kv)[1]))
+        else:
+            return []
+
+    def find_print_word(self, word, tme=True, tp=False):
+        start = time()
+        res = self.find_word(word)
+        end = time()
+        if tme:
+            print("\n\nСтроковый файл, количество страниц:", len(res), "\n Поиск и парсинг", end-start)
+        if tp:
+            for l in sorted(res, key=lambda x:-x[1])[:10]:
+                print(l[1], l[0])
+
+
+
+        # return  if word == self.lst[t][0] else []

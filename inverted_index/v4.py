@@ -2,27 +2,30 @@ from settings import ENCODING, INDEX_LENGTH
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.snowball import RussianStemmer
-import time
+from time import time
 from v3 import v3
 from bitarray import bitarray
-
+import sys
+from v2 import kv_to_k2v
 class v4:
 
     def __init__(self, filename, mp, loadf=True, encoding=ENCODING, lang="ru"):
-        start = time.time()
+        print(filename, "начало загрузки")
+        start = time()
         self.filename = filename
         self.lst = []
         self.isLoad = False
         self.mp = []
         self.load_mp(mp)
-        start1 = time.time()
+        start1 = time()
         if loadf:
             self.load_list_from_file()
         self.N = len(self.lst)
-        start2 = time.time()
-        print(start1 - start)
-        print(start2 - start1)
+        start2 = time()
+        print("Загрузка map файла:", start1 - start)
+        print("Загрузка файла обратного индекса:", start2 - start1)
         self.encoding=encoding
+        print(filename, "загружен")
 
 
     def load_mp(self, fl):
@@ -49,6 +52,7 @@ class v4:
                     k = rf.read(1)
 
     def map_url(self, i): return self.mp[i]
+    def map2_url(self, i): return (self.mp[int(i[0])], i[1])
     
     def find_word(self, word):
         stemmer = RussianStemmer()
@@ -73,8 +77,21 @@ class v4:
             ba.frombytes(self.lst[i][1])
             while ba.any():
                 values.append(v4.edelta_to_int(ba)-1)
-            return list(map(self.map_url, values)) 
+            
+            kv = (word, values)
+            return list(map(self.map2_url, kv_to_k2v(kv)[1]))
+            # return list(map(self.map_url, values)) 
         return []
+    
+    def find_print_word(self, word, tme=True, tp=False):
+        start = time()
+        res = self.find_word(word)
+        end = time()
+        if tme:
+            print("\n\nДельта Элиас, количество страниц:", len(res), "\n Поиск и парсинг", end-start)
+        if tp:
+            for l in sorted(res, key=lambda x:-x[1])[:10]:
+                print(l[1], l[0])
 
     @staticmethod
     def kv_to_prow(kv, mp, lang="ru", encoding=ENCODING, intbytes=4, byteorder="big", index_length=INDEX_LENGTH):
